@@ -20,6 +20,9 @@ on:
           description: Name of repository to analyze
           required: false
 
+permissions:
+  security-events: read
+
 jobs:
   audit:
     name: Audit organization or repository
