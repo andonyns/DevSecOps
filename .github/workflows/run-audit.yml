@@ -1,0 +1,56 @@
+# SPDX-License-Identifier: Apache-2.0
+# Licensed to the Ed-Fi Alliance under one or more agreements.
+# The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
+# See the LICENSE and NOTICES files in the project root for more information.
+
+name: Run Audit
+on:
+  workflow_dispatch:
+    inputs:
+        organization:
+          type: choice
+          description: Organization
+          options:
+          - Ed-Fi-Alliance-OSS
+          - Ed-Fi-Closed
+          - Ed-Fi-Exchange-OSS
+          required: true
+        repository:
+          type: string
+          description: Name of repository to analyze
+          required: false
+
+jobs:
+  audit:
+    name: Audit organization or repository
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: edfi-repo-auditor
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b # v3.0.2
+
+      - name: Install Poetry
+        run: pipx install poetry
+
+      - name: Install Python 3.9
+        uses: actions/setup-python@98f2ad02fd48d057ee3b4d4f66525b231c3e52b6 # v3.1.2
+        with:
+          python-version: "3.9"
+          cache: "poetry"
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Audit
+        run: poetry run python edfi_repo_auditor -p ${{ secrets.GITHUB_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
+        with:
+          name: audit-result
+          path: ./reports/audit-result.json
+          if-no-files-found: error
+          retention-days: 10
