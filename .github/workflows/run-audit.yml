@@ -18,9 +18,10 @@ on:
         repository:
           type: string
           description: Name of repository to analyze
+          default: Meadowlark
           required: false
 
-permissions: read-all
+permissions: write-all
 
 jobs:
   audit:
