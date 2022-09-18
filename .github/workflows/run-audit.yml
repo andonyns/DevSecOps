@@ -11,9 +11,9 @@ on:
           type: choice
           description: Organization
           options:
+          - Ed-Fi-Exchange-OSS
           - Ed-Fi-Alliance-OSS
           - Ed-Fi-Closed
-          - Ed-Fi-Exchange-OSS
           required: true
         repository:
           type: string
@@ -54,6 +54,6 @@ jobs:
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
         with:
           name: audit-result
-          path: ./reports/audit-result.json
+          path: reports/audit-result.json
           if-no-files-found: error
           retention-days: 10
