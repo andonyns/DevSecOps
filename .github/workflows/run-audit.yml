@@ -61,7 +61,7 @@ jobs:
         run: poetry install
 
       - name: Audit
-        run: poetry run python edfi_repo_auditor -p ${{ secrets.GITHUB_TOKEN }} -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
+        run: poetry run python edfi_repo_auditor -p ${{ secrets.MY_TOKEN }} -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
         # run: poetry run python edfi_repo_auditor -p ${{ secrets.GITHUB_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
 
       # - name: Upload Artifact
