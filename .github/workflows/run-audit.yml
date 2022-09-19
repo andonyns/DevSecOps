@@ -23,11 +23,11 @@ on:
 
 permissions:
   actions: read
-  # checks: read
-  # contents: read
-  # deployments: read
-  # id-token: read
-  # issues: read
+  checks: read
+  contents: read
+  deployments: read
+  id-token: read
+  issues: read
   # discussions: read
   # packages: read
   # pages: read

@@ -107,8 +107,8 @@ def audit_actions(client: GitHubClient, organization: str, repository: str) -> d
 def get_repo_information(client: GitHubClient, organization: str, repository: str) -> dict:
     information = client.get_repository_information(organization, repository)
 
-    dependabot_results = {} #audit_alerts(client, organization, repository,
-    #                                   information["vulnerabilityAlerts"]["nodes"])
+    dependabot_results = audit_alerts(client, organization, repository,
+                                      information["vulnerabilityAlerts"]["nodes"])
 
     rulesForMain = [rules for rules in information["branchProtectionRules"]["nodes"] if rules["pattern"] == "main"]
     rules = rulesForMain[0] if rulesForMain else None

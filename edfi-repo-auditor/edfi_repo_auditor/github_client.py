@@ -41,19 +41,19 @@ REPOSITORIES_TEMPLATE = """
 REPOSITORY_INFORMATION_TEMPLATE = """
 {
   repository(name: "[REPOSITORY]", owner: "[OWNER]") {
-    # vulnerabilityAlerts(first: 100, states: [OPEN]) {
-    #   nodes {
-    #     createdAt
-    #     securityVulnerability {
-    #       package {
-    #         name
-    #       }
-    #       advisory {
-    #         severity
-    #       }
-    #     }
-    #   }
-    # }
+    vulnerabilityAlerts(first: 100, states: [OPEN]) {
+      nodes {
+        createdAt
+        securityVulnerability {
+          package {
+            name
+          }
+          advisory {
+            severity
+          }
+        }
+      }
+    }
     branchProtectionRules(first: 10) {
       nodes {
         pattern
