@@ -7,34 +7,34 @@ name: Run Audit
 on:
   workflow_dispatch:
     inputs:
-        organization:
-          type: choice
-          description: Organization
-          options:
-          - Ed-Fi-Exchange-OSS
-          - Ed-Fi-Alliance-OSS
-          - Ed-Fi-Closed
-          required: true
-        repository:
-          type: string
-          description: Name of repository to analyze
-          default: Meadowlark
-          required: false
+      organization:
+        type: choice
+        description: Organization
+        options:
+        - Ed-Fi-Exchange-OSS
+        - Ed-Fi-Alliance-OSS
+        - Ed-Fi-Closed
+        required: true
+      repository:
+        type: string
+        description: Name of repository to analyze
+        default: ''
+        required: false
+  workflow_call:
+    inputs:
+      organization:
+        required: true
+        type: string
+      repository:
+        required: true
+        type: string
+
 
 permissions:
   actions: read
-  checks: read
   contents: read
-  deployments: read
-  # id-token: read
-  # issues: read
-  discussions: read
-  packages: read
-  pages: read
   pull-requests: read
-  repository-projects: read
-  security-events: read
-  statuses: read
+  security-events: write
 
 jobs:
   audit:
@@ -61,13 +61,12 @@ jobs:
         run: poetry install
 
       - name: Audit
-        run: poetry run python edfi_repo_auditor -p ${{ secrets.MY_TOKEN }} -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
-        # run: poetry run python edfi_repo_auditor -p ${{ secrets.GITHUB_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
+        run: poetry run python edfi_repo_auditor -p ${{ secrets.GITHUB_PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
 
-      # - name: Upload Artifact
-      #   uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
-      #   with:
-      #     name: audit-result
-      #     path: ./edfi-repo-auditor/reports/audit-result.json
-      #     if-no-files-found: error
-      #     retention-days: 10
+      - name: Upload Artifact
+        uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
+        with:
+          name: audit-result
+          path: ./edfi-repo-auditor/reports/audit-result.json
+          if-no-files-found: error
+          retention-days: 10
