@@ -21,25 +21,25 @@ on:
           default: Meadowlark
           required: false
 
+permissions:
+  actions: read
+  # checks: read
+  # contents: read
+  # deployments: read
+  # id-token: read
+  # issues: read
+  # discussions: read
+  # packages: read
+  # pages: read
+  # pull-requests: read
+  # repository-projects: read
+  # security-events: read
+  # statuses: read
+
 jobs:
   audit:
     name: Audit organization or repository
     runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      checks: read
-      contents: read
-      deployments: read
-      id-token: read
-      issues: read
-      discussions: read
-      packages: read
-      pages: read
-      pull-requests: read
-      repository-projects: read
-      security-events: read
-      statuses: read
-
     defaults:
       run:
         working-directory: edfi-repo-auditor
