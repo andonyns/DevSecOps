@@ -22,7 +22,7 @@ on:
         required: false
 
 env:
-  PERSONAL_ACCESS_TOKEN: secrets.EDFI_BUILD_AGENT_PAT
+  PERSONAL_ACCESS_TOKEN: ${{ secrets.EDFI_BUILD_AGENT_PAT }}
 
 permissions:
   actions: read
@@ -56,7 +56,7 @@ jobs:
 
       - name: Audit
         if: github.event.inputs.repository != ''
-        run: poetry run python edfi_repo_auditor -p ${{ secrets.EDFI_BUILD_AGENT_PAT }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
+        run: poetry run python edfi_repo_auditor -p ${{ env.PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
 
       - name: Audit
         if: github.event.inputs.repository == ''
