@@ -3,7 +3,7 @@
 # The Ed-Fi Alliance licenses this file to you under the Apache License, Version 2.0.
 # See the LICENSE and NOTICES files in the project root for more information.
 
-name: Run Audit
+name: Run Single Audit
 on:
   workflow_dispatch:
     inputs:
@@ -20,15 +20,9 @@ on:
         description: Name of repository to analyze
         default: ''
         required: false
-  workflow_call:
-    inputs:
-      organization:
-        required: true
-        type: string
-      repository:
-        required: true
-        type: string
 
+env:
+  PERSONAL_ACCESS_TOKEN: secrets.EDFI_BUILD_AGENT_PAT || env.GITHUB_TOKEN
 
 permissions:
   actions: read
@@ -62,11 +56,11 @@ jobs:
 
       - name: Audit
         if: github.event.inputs.repository != ''
-        run: poetry run python edfi_repo_auditor -p ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
+        run: poetry run python edfi_repo_auditor -p ${{ secrets.PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
 
       - name: Audit
         if: github.event.inputs.repository == ''
-        run: poetry run python edfi_repo_auditor -p ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }}
+        run: poetry run python edfi_repo_auditor -p ${{ secrets.PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
