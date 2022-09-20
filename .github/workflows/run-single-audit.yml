@@ -56,11 +56,11 @@ jobs:
 
       - name: Audit
         if: github.event.inputs.repository != ''
-        run: poetry run python edfi_repo_auditor -p ${{ secrets.PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
+        run: poetry run python edfi_repo_auditor -p ${{ env.PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }} -r ${{ github.event.inputs.repository }}
 
       - name: Audit
         if: github.event.inputs.repository == ''
-        run: poetry run python edfi_repo_auditor -p ${{ secrets.PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }}
+        run: poetry run python edfi_repo_auditor -p ${{ env.PERSONAL_ACCESS_TOKEN }} -s -o ${{ github.event.inputs.organization }}
 
       - name: Upload Artifact
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
