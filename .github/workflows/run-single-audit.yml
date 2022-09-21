@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Setup
-        uses: ./.github/workflows/setup-auditor.yml
+        uses: ./.github/workflows
 
       - name: Audit
         if: github.event.inputs.repository != ''
